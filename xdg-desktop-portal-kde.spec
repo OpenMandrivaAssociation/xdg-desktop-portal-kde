@@ -4,7 +4,7 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: xdg-desktop-portal-kde
-Version: 5.13.3
+Version: 5.12.6
 Release: 1
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
@@ -25,7 +25,7 @@ BuildRequires: cmake(Qt5PrintSupport)
 BuildRequires: cmake(Qt5Widgets)
 
 %description
-Backend implementation for xdg-desktop-portal using Qt/KDE
+Backend implementation for xdg-desktop-portal using Qt/KDE.
 
 %prep
 %autosetup
