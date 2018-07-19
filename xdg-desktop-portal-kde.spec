@@ -28,7 +28,7 @@ BuildRequires: cmake(Qt5Widgets)
 Backend implementation for xdg-desktop-portal using Qt/KDE.
 
 %prep
-%autosetup
+%setup -q
 %cmake_kde5
 
 %build
