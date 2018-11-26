@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   xdg-desktop-portal-kde-5.12.6.tar.xz: b26af0c6cbc9adf154aa34c1e24aabb40a303de9
+sources:
+  xdg-desktop-portal-kde-5.12.7.tar.xz: fe76210c8e55b2cc5278677bc1d8a354fe906285
