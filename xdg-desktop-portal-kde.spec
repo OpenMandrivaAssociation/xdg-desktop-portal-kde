@@ -23,6 +23,7 @@ BuildRequires: cmake(Qt5DBus)
 BuildRequires: cmake(Qt5Gui)
 BuildRequires: cmake(Qt5PrintSupport)
 BuildRequires: cmake(Qt5Widgets)
+BuildRequires: cups-devel
 Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation
 
