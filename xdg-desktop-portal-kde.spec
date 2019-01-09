@@ -16,6 +16,7 @@ BuildRequires: cmake(KF5CoreAddons)
 BuildRequires: cmake(KF5I18n)
 BuildRequires: cmake(KF5Notifications)
 BuildRequires: cmake(KF5Wayland)
+BuildRequires: cmake(KF5WindowSystem)
 BuildRequires: cmake(KF5WidgetsAddons)
 BuildRequires: cmake(Qt5Core)
 BuildRequires: cmake(Qt5Concurrent)
@@ -28,7 +29,7 @@ Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation
 
 %description
-Backend implementation for xdg-desktop-portal using Qt/KDE
+Backend implementation for xdg-desktop-portal using Qt/KDE.
 
 %prep
 %autosetup
