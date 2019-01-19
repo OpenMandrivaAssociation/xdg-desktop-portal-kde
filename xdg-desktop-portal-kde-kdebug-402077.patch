@@ -1,0 +1,15 @@
+diff -up xdg-desktop-portal-kde-5.14.5/src/filechooser.cpp.omv~ xdg-desktop-portal-kde-5.14.5/src/filechooser.cpp
+--- xdg-desktop-portal-kde-5.14.5/src/filechooser.cpp.omv~	2019-01-19 03:52:52.353325496 +0100
++++ xdg-desktop-portal-kde-5.14.5/src/filechooser.cpp	2019-01-19 03:54:27.322675372 +0100
+@@ -293,7 +293,10 @@ uint FileChooserPortal::SaveFile(const Q
+     fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+ 
+     if (!currentFolder.isEmpty()) {
+-        fileDialog->setDirectoryUrl(QUrl(currentFolder));
++        QUrl currentUrl(currentFolder);
++        if(currentUrl.scheme().isEmpty())
++            currentUrl=QUrl::fromLocalFile(currentFolder);
++        fileDialog->setDirectoryUrl(currentUrl);
+     }
+ 
+     if (!currentFile.isEmpty()) {
