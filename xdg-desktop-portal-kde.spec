@@ -14,6 +14,7 @@ Group: Graphical desktop/KDE
 BuildRequires: cmake(ECM)
 BuildRequires: cmake(KF5CoreAddons)
 BuildRequires: cmake(KF5I18n)
+BuildRequires: cmake(KF5KIO)
 BuildRequires: cmake(KF5Notifications)
 BuildRequires: cmake(KF5Wayland)
 BuildRequires: cmake(KF5WindowSystem)
