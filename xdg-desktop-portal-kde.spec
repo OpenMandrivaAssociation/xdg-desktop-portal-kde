@@ -23,6 +23,7 @@ BuildRequires: cmake(Qt5Concurrent)
 BuildRequires: cmake(Qt5DBus)
 BuildRequires: cmake(Qt5Gui)
 BuildRequires: cmake(Qt5PrintSupport)
+BuildRequires: cmake(Qt5QuickWidgets)
 BuildRequires: cmake(Qt5Widgets)
 BuildRequires: cups-devel
 BuildRequires: pkgconfig(glib-2.0)
