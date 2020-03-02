@@ -4,7 +4,7 @@
 
 Name: xdg-desktop-portal-kde
 Version:	5.18.2
-Release:	1
+Release:	2
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
 URL: http://kde.org/
@@ -30,7 +30,7 @@ BuildRequires: cmake(Qt5QuickWidgets)
 BuildRequires: cmake(Qt5Widgets)
 BuildRequires: cups-devel
 BuildRequires: pkgconfig(glib-2.0)
-BuildRequires: pkgconfig(libpipewire-0.2)
+BuildRequires: pkgconfig(libpipewire-0.3)
 BuildRequires: pkgconfig(gbm)
 BuildRequires: pkgconfig(epoxy)
 Requires: xdg-desktop-portal
