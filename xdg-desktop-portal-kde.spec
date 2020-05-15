@@ -3,7 +3,7 @@
 %define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: xdg-desktop-portal-kde
-Version:	5.18.5
+Version:	5.18.90
 Release:	1
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
@@ -56,3 +56,4 @@ Backend implementation for xdg-desktop-portal using Qt/KDE.
 %{_datadir}/xdg-desktop-portal
 %{_datadir}/xdg-desktop-portal-kde
 %{_datadir}/applications/org.freedesktop.impl.portal.desktop.kde.desktop
+%{_datadir}/knotifications5/xdg-desktop-portal-kde.notifyrc
