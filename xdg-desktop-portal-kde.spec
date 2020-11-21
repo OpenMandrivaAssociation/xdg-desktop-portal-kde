@@ -4,7 +4,7 @@
 
 Name: xdg-desktop-portal-kde
 Version:	5.20.3
-Release:	3
+Release:	4
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
 URL: http://kde.org/
