@@ -36,6 +36,7 @@ BuildRequires: cmake(Qt5WaylandClient)
 BuildRequires: qt5-qtwayland
 BuildRequires: pkgconfig(gbm)
 BuildRequires: pkgconfig(epoxy)
+Requires: kio-fuse
 Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation
 
