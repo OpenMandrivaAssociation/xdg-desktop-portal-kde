@@ -27,6 +27,7 @@ BuildRequires: cmake(Qt5Gui)
 BuildRequires: cmake(Qt5PrintSupport)
 BuildRequires: cmake(Qt5QuickWidgets)
 BuildRequires: cmake(Qt5Widgets)
+BuildRequires: cmake(Qt5Test)
 BuildRequires: cups-devel
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(libpipewire-0.3)
