@@ -32,6 +32,7 @@ BuildRequires: cups-devel
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(libpipewire-0.3)
 BuildRequires: pkgconfig(wayland-client)
+BuildRequires: pkgconfig(xkbcommon)
 BuildRequires: cmake(PlasmaWaylandProtocols)
 BuildRequires: cmake(Qt5WaylandClient)
 BuildRequires: qt5-qtwayland
