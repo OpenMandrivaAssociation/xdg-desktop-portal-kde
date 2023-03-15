@@ -1,9 +1,9 @@
 %define plasmaver %(echo %{version} |cut -d. -f1-3)
-%define stable %([ "`echo %{version} |cut -d. -f3`" -ge 80 ] && echo -n un; echo -n stable)
+%define stable %([ "$(echo %{version} |cut -d. -f3)" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: xdg-desktop-portal-kde
 Version:	5.27.3
-Release:	1
+Release:	2
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
 URL: http://kde.org/
@@ -39,6 +39,7 @@ BuildRequires: cmake(Qt5WaylandClient)
 BuildRequires: qt5-qtwayland
 BuildRequires: pkgconfig(gbm)
 BuildRequires: pkgconfig(epoxy)
+BuildRequires: kio-fuse
 Requires: kio-fuse
 Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation
@@ -57,11 +58,17 @@ Backend implementation for xdg-desktop-portal using Qt/KDE.
 %ninja_install -C build
 %find_lang %{name} --all-name --with-html
 
+%post
+%systemd_user_post plasma-xdg-desktop-portal-kde.service
+
+%postun
+%systemd_user_postun plasma-xdg-desktop-portal-kde.service
+
 %files -f %{name}.lang
 %{_libdir}/libexec/xdg-desktop-portal-kde
 %{_datadir}/dbus-1/services/org.freedesktop.impl.portal.desktop.kde.service
 %{_datadir}/xdg-desktop-portal
 %{_datadir}/applications/org.freedesktop.impl.portal.desktop.kde.desktop
 %{_datadir}/knotifications5/xdg-desktop-portal-kde.notifyrc
-%{_prefix}/lib/systemd/user/plasma-xdg-desktop-portal-kde.service
+%{_userunitdir}/plasma-xdg-desktop-portal-kde.service
 %{_datadir}/qlogging-categories5/xdp-kde.categories
