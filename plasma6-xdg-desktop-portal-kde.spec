@@ -32,6 +32,7 @@ BuildRequires: cmake(Qt6DBus)
 BuildRequires: cmake(Qt6Gui)
 BuildRequires: cmake(Qt6PrintSupport)
 BuildRequires: cmake(Qt6QuickWidgets)
+BuildRequires: cmake(Qt6QuickControls2)
 BuildRequires: cmake(Qt6Widgets)
 BuildRequires: cmake(Qt6Test)
 BuildRequires: cups-devel
