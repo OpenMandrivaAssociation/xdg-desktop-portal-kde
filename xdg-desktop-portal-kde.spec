@@ -43,6 +43,8 @@ BuildRequires: qt5-qtwayland
 BuildRequires: pkgconfig(gbm)
 BuildRequires: pkgconfig(epoxy)
 BuildRequires: kio-fuse
+# FIXME this is wrong, just making sure we don't pull in plasma6 deps
+BuildRequires: xdg-desktop-portal-kde
 Requires: kio-fuse
 Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation = %{EVRD}
