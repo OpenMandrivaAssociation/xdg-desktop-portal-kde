@@ -2,6 +2,9 @@
 %define stable %([ "$(echo %{version} |cut -d. -f3)" -ge 80 ] && echo -n un; echo -n stable)
 
 Name: xdg-desktop-portal-kde
+# The Epoch is there solely to make xdg-desktop-portal-kde the
+# preferred implementation of xdg-desktop-portal-implementation
+Epoch:		1
 Version:	5.27.5
 Release:	1
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
@@ -42,7 +45,7 @@ BuildRequires: pkgconfig(epoxy)
 BuildRequires: kio-fuse
 Requires: kio-fuse
 Requires: xdg-desktop-portal
-Provides: xdg-desktop-portal-implementation
+Provides: xdg-desktop-portal-implementation = %{EVRD}
 
 %description
 Backend implementation for xdg-desktop-portal using Qt/KDE.
