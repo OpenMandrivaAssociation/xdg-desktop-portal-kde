@@ -6,7 +6,7 @@ Name: xdg-desktop-portal-kde
 # preferred implementation of xdg-desktop-portal-implementation
 Epoch:		1
 Version:	5.27.8
-Release:	1
+Release:	2
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/%{name}-%{version}.tar.xz
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
 URL: http://kde.org/
