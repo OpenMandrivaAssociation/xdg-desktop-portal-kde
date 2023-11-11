@@ -4,7 +4,7 @@
 
 Name: plasma6-xdg-desktop-portal-kde
 Version:	5.27.80
-Release:	%{?git:0.%{git}.}1
+Release:	%{?git:0.%{git}.}2
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/master/xdg-desktop-portal-kde-master.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
 %else
