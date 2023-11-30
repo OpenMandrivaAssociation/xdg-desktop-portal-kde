@@ -3,8 +3,8 @@
 #define git 20231104
 
 Name: plasma6-xdg-desktop-portal-kde
-Version:	5.27.80
-Release:	%{?git:0.%{git}.}2
+Version:	5.90.0
+Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/master/xdg-desktop-portal-kde-master.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
 %else
@@ -19,12 +19,12 @@ BuildRequires: cmake(KF6CoreAddons)
 BuildRequires: cmake(KF6I18n)
 BuildRequires: cmake(KF6KIO)
 BuildRequires: cmake(KF6Notifications)
-BuildRequires: cmake(KF6Wayland)
+BuildRequires: cmake(Wayland) >= 5.90.0
 BuildRequires: cmake(KF6WindowSystem)
 BuildRequires: cmake(KF6WidgetsAddons)
 BuildRequires: cmake(KF6Declarative)
 BuildRequires: cmake(KF6Kirigami2)
-BuildRequires: cmake(KF6Plasma)
+BuildRequires: cmake(Plasma) >= 5.90.0
 BuildRequires: cmake(KF6GlobalAccel)
 BuildRequires: cmake(KF6StatusNotifierItem)
 BuildRequires: cmake(Qt6)
