@@ -47,7 +47,6 @@ BuildRequires: cmake(PlasmaWaylandProtocols)
 BuildRequires: cmake(Qt6WaylandClient)
 BuildRequires: pkgconfig(gbm)
 BuildRequires: pkgconfig(epoxy)
-BuildRequires: plasma6-xdg-desktop-portal-kde
 Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation
 
