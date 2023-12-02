@@ -20,6 +20,7 @@ BuildRequires: cmake(KF6I18n)
 BuildRequires: cmake(KF6KIO)
 BuildRequires: cmake(KF6Notifications)
 BuildRequires: cmake(Wayland) >= 5.90.0
+BuildRequires: cmake(KWayland)
 BuildRequires: cmake(KF6WindowSystem)
 BuildRequires: cmake(KF6WidgetsAddons)
 BuildRequires: cmake(KF6Declarative)
