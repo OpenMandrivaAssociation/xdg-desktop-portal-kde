@@ -1,12 +1,14 @@
 %define plasmaver %(echo %{version} |cut -d. -f1-3)
 %define stable %([ "$(echo %{version} |cut -d. -f2)" -ge 80 -o "$(echo %{version} |cut -d. -f3)" -ge 80 ] && echo -n un; echo -n stable)
-#define git 20231104
+%define git 20240217
+%define gitbranch Plasma/6.0
+%define gitbranchd %(echo %{gitbranch} |sed -e "s,/,-,g")
 
 Name: plasma6-xdg-desktop-portal-kde
-Version:	5.93.0
+Version:	5.94.0
 Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
-Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/master/xdg-desktop-portal-kde-master.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
+Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/%{gitbranch}/xdg-desktop-portal-kde-%{gitbranchd}.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
 %else
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/xdg-desktop-portal-kde-%{version}.tar.xz
 %endif
@@ -55,7 +57,7 @@ Provides: xdg-desktop-portal-implementation
 Backend implementation for xdg-desktop-portal using Qt/KDE.
 
 %prep
-%autosetup -p1 -n xdg-desktop-portal-kde-%{?git:master}%{!?git:%{version}}
+%autosetup -p1 -n xdg-desktop-portal-kde-%{?git:%{gitbranchd}}%{!?git:%{version}}
 %cmake \
 	-DBUILD_QCH:BOOL=ON \
 	-DBUILD_WITH_QT6:BOOL=ON \
