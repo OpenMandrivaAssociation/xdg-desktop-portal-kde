@@ -13,7 +13,7 @@ Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/%{gitbra
 Source0: http://download.kde.org/%{stable}/plasma/%{plasmaver}/xdg-desktop-portal-kde-%{version}.tar.xz
 %endif
 Summary: Backend implementation for xdg-desktop-portal using Qt/KDE
-URL: http://kde.org/
+URL: https://kde.org/
 License: GPL
 Group: Graphical desktop/KDE
 BuildRequires: cmake(ECM)
