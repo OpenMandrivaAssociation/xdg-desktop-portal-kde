@@ -6,7 +6,7 @@
 
 Name: plasma6-xdg-desktop-portal-kde
 Version:	6.3.3
-Release:	%{?git:0.%{git}.}1
+Release:	%{?git:0.%{git}.}2
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/%{gitbranch}/xdg-desktop-portal-kde-%{gitbranchd}.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
 %else
