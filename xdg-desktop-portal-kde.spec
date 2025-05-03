@@ -4,7 +4,7 @@
 %define gitbranch Plasma/6.0
 %define gitbranchd %(echo %{gitbranch} |sed -e "s,/,-,g")
 
-Name: plasma6-xdg-desktop-portal-kde
+Name: xdg-desktop-portal-kde
 Version:	6.3.4
 Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
@@ -52,24 +52,15 @@ BuildRequires: pkgconfig(gbm)
 BuildRequires: pkgconfig(epoxy)
 Requires: xdg-desktop-portal
 Provides: xdg-desktop-portal-implementation
+# Renamed after 6.0 2025-05-03
+%rename plasma6-xdg-desktop-portal-kde
+
+BuildSystem:	cmake
+BuildOption:	-DBUILD_QCH:BOOL=ON
+BuildOption:	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON
 
 %description
 Backend implementation for xdg-desktop-portal using Qt/KDE.
-
-%prep
-%autosetup -p1 -n xdg-desktop-portal-kde-%{?git:%{gitbranchd}}%{!?git:%{version}}
-%cmake \
-	-DBUILD_QCH:BOOL=ON \
-	-DBUILD_WITH_QT6:BOOL=ON \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
-	-G Ninja
-
-%build
-%ninja_build -C build
-
-%install
-%ninja_install -C build
-%find_lang %{name} --all-name --with-html
 
 %post
 %systemd_user_post plasma-xdg-desktop-portal-kde.service
