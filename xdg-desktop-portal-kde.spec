@@ -43,6 +43,7 @@ BuildRequires: cmake(Qt6Test)
 BuildRequires: cups-devel
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(libpipewire-0.3)
+BuildRequires: cmake(KPipeWire) >= 6.8
 BuildRequires: pkgconfig(wayland-client)
 BuildRequires: pkgconfig(xkbcommon)
 BuildRequires: pkgconfig(wayland-protocols)
