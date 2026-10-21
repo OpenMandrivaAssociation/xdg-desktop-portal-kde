@@ -1,0 +1,66 @@
+diff -ruN a/src/xdg-desktop-portal-kde.cpp b/src/xdg-desktop-portal-kde.cpp
+--- a/src/xdg-desktop-portal-kde.cpp	2026-10-21 18:00:57.097718581 +0200
++++ b/src/xdg-desktop-portal-kde.cpp	2026-10-21 18:10:18.953864016 +0200
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include <QApplication>
++#include <QFile>
+ #include <QCommandLineParser>
+ #include <QDBusConnection>
+ #include <QDBusConnectionInterface>
+@@ -23,11 +24,54 @@
+ 
+ using namespace Qt::StringLiterals;
+ 
++
++// Qt selects the wayland platform plugin ahead of xcb when WAYLAND_DISPLAY is
++// set (including an empty value) or XDG_SESSION_TYPE=wayland, unless
++// QT_QPA_PLATFORM is already set. This process is dbus-activated from the
++// systemd user manager, which still has the greeter or previous session
++// environment until startplasma publishes xcb. The wayland plugin then fails
++// with "Failed to create wl_display". A real Wayland session is left alone
++// when its compositor socket exists.
++static bool waylandCompositorSocketExists()
++{
++    QByteArray display = qgetenv("WAYLAND_DISPLAY");
++    if (display.isEmpty()) {
++        display = QByteArrayLiteral("wayland-0");
++    }
++    if (display.startsWith('/')) {
++        return QFile::exists(QString::fromLocal8Bit(display));
++    }
++    const QByteArray runtime = qgetenv("XDG_RUNTIME_DIR");
++    if (runtime.isEmpty()) {
++        return false;
++    }
++    return QFile::exists(QString::fromLocal8Bit(runtime + '/' + display));
++}
++
++static void selectX11PlatformIfNeeded()
++{
++    const QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
++    if (sessionType == "wayland" && waylandCompositorSocketExists()) {
++        return;
++    }
++    if (sessionType != "x11" && sessionType != "wayland" && !qEnvironmentVariableIsSet("DISPLAY")) {
++        return;
++    }
++
++    qunsetenv("WAYLAND_DISPLAY");
++    qunsetenv("WAYLAND_SOCKET");
++    const QByteArray platform = qgetenv("QT_QPA_PLATFORM");
++    if (platform.isEmpty() || platform.startsWith("wayland")) {
++        qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("xcb"));
++    }
++}
++
+ int main(int argc, char *argv[])
+ {
+     // Do not try to reconnect to the compositor as KWayland can't handle that
+     // Reconsider enabling when we do not use KWayland anymore
+     qunsetenv("QT_WAYLAND_RECONNECT");
++    selectX11PlatformIfNeeded();
+     QCoreApplication::setAttribute(Qt::AA_DisableSessionManager);
+     QApplication a(argc, argv);
+     a.setQuitOnLastWindowClosed(false);

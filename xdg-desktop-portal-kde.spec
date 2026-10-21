@@ -6,7 +6,7 @@
 
 Name: xdg-desktop-portal-kde
 Version:	6.8.1
-Release:	%{?git:0.%{git}.}1
+Release:	%{?git:0.%{git}.}2
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/%{gitbranch}/xdg-desktop-portal-kde-%{gitbranchd}.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
 %else
@@ -60,14 +60,11 @@ BuildSystem:	cmake
 BuildOption:	-DBUILD_QCH:BOOL=ON
 BuildOption:	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON
 
+%patchlist
+xdg-desktop-portal-kde-6.8.1-x11-platform.patch
+
 %description
 Backend implementation for xdg-desktop-portal using Qt/KDE.
-
-%post
-%systemd_user_post plasma-xdg-desktop-portal-kde.service
-
-%postun
-%systemd_user_postun plasma-xdg-desktop-portal-kde.service
 
 %files -f %{name}.lang
 %{_libdir}/libexec/xdg-desktop-portal-kde
