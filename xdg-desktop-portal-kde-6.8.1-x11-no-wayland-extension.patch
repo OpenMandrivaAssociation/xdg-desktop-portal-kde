@@ -1,0 +1,58 @@
+diff -ruN a/src/clipboard.cpp b/src/clipboard.cpp
+--- a/src/clipboard.cpp	2026-10-21 18:35:34.088293599 +0200
++++ b/src/clipboard.cpp	2026-10-21 18:35:34.108689336 +0200
+@@ -193,13 +193,17 @@
+ 
+ ClipboardPortal::ClipboardPortal(QObject *parent)
+     : QDBusAbstractAdaptor(parent)
+-    , m_dataControlManager(std::make_unique<DataControlManager>())
+ {
+     auto waylandApp = qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+     if (!waylandApp) {
+         qCWarning(XdgDesktopPortalKdeClipboard) << "Couldn't resolve QWaylandApplication - clipboard will not work";
+         return;
+     }
++    // QWaylandClientExtensionPrivate creates a QWaylandIntegration when this
++    // process is not already using the wayland platform plugin. That calls
++    // wl_display_connect and logs "Failed to create wl_display" even when
++    // QT_QPA_PLATFORM=xcb. Construct the extension only after the check above.
++    m_dataControlManager = std::make_unique<DataControlManager>();
+     if (!m_dataControlManager->isActive()) {
+         qCWarning(XdgDesktopPortalKdeClipboard) << "Couldn't bind data control - clipboard will not work";
+         return;
+diff -ruN a/src/outputsmodel.cpp b/src/outputsmodel.cpp
+--- a/src/outputsmodel.cpp	2026-10-21 18:35:34.089207661 +0200
++++ b/src/outputsmodel.cpp	2026-10-21 18:35:34.108771427 +0200
+@@ -73,11 +73,16 @@
+ 
+ OutputsModel::OutputsModel(Options o, QObject *parent)
+     : QAbstractListModel(parent)
+-    , m_outputOrder(std::make_unique<OutputOrder>(/* version= */ 1))
+ {
+-    // Be mindful that all output changes trigger the slot. Otherwise we may end up with unsorted outputs!
+-    // Specifically should we ever need to listen to QGuiApplication::screenAdded.
+-    connect(m_outputOrder.get(), &OutputOrder::outputsChanged, this, &OutputsModel::onOutputsChanged);
++    // Same QWaylandClientExtension pitfall as the clipboard portal: constructing
++    // OutputOrder on X11 logs "Failed to create wl_display". kde-output-order-v1
++    // is Wayland-only; QScreen order is already filled in below.
++    if (qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>()) {
++        m_outputOrder = std::make_unique<OutputOrder>(/* version= */ 1);
++        // Be mindful that all output changes trigger the slot. Otherwise we may end up with unsorted outputs!
++        // Specifically should we ever need to listen to QGuiApplication::screenAdded.
++        connect(m_outputOrder.get(), &OutputOrder::outputsChanged, this, &OutputsModel::onOutputsChanged);
++    }
+ 
+     if (o & RegionIncluded) {
+         m_outputs << Output{Output::Region, nullptr, i18n("Share region"), u"Region"_s, {}, nullptr};
+diff -ruN a/src/waylandintegration.cpp b/src/waylandintegration.cpp
+--- a/src/waylandintegration.cpp	2026-10-21 18:35:34.090036941 +0200
++++ b/src/waylandintegration.cpp	2026-10-21 18:35:34.108830968 +0200
+@@ -183,7 +183,7 @@
+ void WaylandIntegration::WaylandIntegrationPrivate::acquireStreamingInput(bool acquire)
+ {
+     if (acquire) {
+-        if (!m_fakeInput) {
++        if (!m_fakeInput && qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>()) {
+             m_fakeInput = std::make_unique<FakeInput>();
+             if (!m_fakeInput->isActive()) {
+                 qCWarning(XdgDesktopPortalKdeWaylandIntegration) << "org_kde_kwin_fake_input protocol is unsupported by the compositor";
