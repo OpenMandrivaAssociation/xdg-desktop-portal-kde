@@ -1,49 +1,25 @@
 diff -ruN a/src/xdg-desktop-portal-kde.cpp b/src/xdg-desktop-portal-kde.cpp
---- a/src/xdg-desktop-portal-kde.cpp	2026-10-21 18:00:57.097718581 +0200
-+++ b/src/xdg-desktop-portal-kde.cpp	2026-10-21 18:10:18.953864016 +0200
-@@ -7,6 +7,7 @@
-  */
- 
- #include <QApplication>
-+#include <QFile>
- #include <QCommandLineParser>
- #include <QDBusConnection>
- #include <QDBusConnectionInterface>
-@@ -23,11 +24,54 @@
+--- a/src/xdg-desktop-portal-kde.cpp	2026-10-21 18:48:18.571331498 +0200
++++ b/src/xdg-desktop-portal-kde.cpp	2026-10-21 18:48:18.571407569 +0200
+@@ -23,11 +23,38 @@
  
  using namespace Qt::StringLiterals;
  
-+
 +// Qt selects the wayland platform plugin ahead of xcb when WAYLAND_DISPLAY is
 +// set (including an empty value) or XDG_SESSION_TYPE=wayland, unless
-+// QT_QPA_PLATFORM is already set. This process is dbus-activated from the
-+// systemd user manager, which still has the greeter or previous session
-+// environment until startplasma publishes xcb. The wayland plugin then fails
-+// with "Failed to create wl_display". A real Wayland session is left alone
-+// when its compositor socket exists.
-+static bool waylandCompositorSocketExists()
-+{
-+    QByteArray display = qgetenv("WAYLAND_DISPLAY");
-+    if (display.isEmpty()) {
-+        display = QByteArrayLiteral("wayland-0");
-+    }
-+    if (display.startsWith('/')) {
-+        return QFile::exists(QString::fromLocal8Bit(display));
-+    }
-+    const QByteArray runtime = qgetenv("XDG_RUNTIME_DIR");
-+    if (runtime.isEmpty()) {
-+        return false;
-+    }
-+    return QFile::exists(QString::fromLocal8Bit(runtime + '/' + display));
-+}
-+
++// QT_QPA_PLATFORM is already set. On X11, startplasma publishes
++// XDG_SESSION_TYPE=x11 and QT_QPA_PLATFORM=xcb before session services start.
++// A Wayland session must not be forced onto xcb here. kwin_wayland_wrapper
++// creates its socket as wayland-1, not wayland-0, and only then publishes
++// WAYLAND_DISPLAY. The portal is dbus-activated after the compositor is ready.
++// Restart=no, so a wrong platform would stick for the whole session.
 +static void selectX11PlatformIfNeeded()
 +{
 +    const QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
-+    if (sessionType == "wayland" && waylandCompositorSocketExists()) {
++    if (sessionType == "wayland") {
 +        return;
 +    }
-+    if (sessionType != "x11" && sessionType != "wayland" && !qEnvironmentVariableIsSet("DISPLAY")) {
++    if (sessionType != "x11" && !qEnvironmentVariableIsSet("DISPLAY")) {
 +        return;
 +    }
 +
