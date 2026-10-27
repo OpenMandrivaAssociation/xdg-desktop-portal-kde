@@ -5,8 +5,8 @@
 %define gitbranchd %(echo %{gitbranch} |sed -e "s,/,-,g")
 
 Name: xdg-desktop-portal-kde
-Version:	6.8.1
-Release:	%{?git:0.%{git}.}3
+Version:	6.8.2
+Release:	%{?git:0.%{git}.}1
 %if 0%{?git:1}
 Source0:	https://invent.kde.org/plasma/xdg-desktop-portal-kde/-/archive/%{gitbranch}/xdg-desktop-portal-kde-%{gitbranchd}.tar.bz2#/xdg-desktop-portal-kde-%{git}.tar.bz2
 %else
